@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+    <style>
+        .app{
+            width:500px;
+            height:500px;
+            text-align: center;
+            font-size: 40px;
+            line-height: 500px;
+            background-color: greenyellow;
+            margin:0 auto;
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="app"  @mouseout="stop" @mouseover="dong">
+        {{msg}}
+    </div>
+
+    <script>    
+    
+        let vm = new Vue({
+            el:'.app',
+            data:{
+                msg:'达康是个渣gay~~~~~!',
+                id:null
+            },
+            methods:{
+                dong(){
+                    clearInterval(this.id)
+                    this.id= setInterval(()=>{
+                        //拿到第一个字符
+                    var start=this.msg.substring(0,1)
+                    //拿到第一个字符  后面的字符
+                    var end=this.msg.substring(1)
+                    //拼接成新字符  赋值给原本
+                    this.msg=end+start
+                    },1)
+                },
+                stop(){
+                    clearInterval(this.id)
+                }
+            }
+        })
+    
+    </script>
+</body>
+</html>
