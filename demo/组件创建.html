@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <wuchan></wuchan>
+
+        <chenkang></chenkang>   
+    </div>
+
+    <template id="com2">
+        <div>
+            <p>这是通过template元素,在外部定义的组件结构</p>
+            <p>这个方法好用</p>
+        </div>
+    </template>
+    <script>
+       
+
+     //第一种方法
+        //用vue.extend来创建全局 组件模板中必须有且至只有一个根元素
+        Vue.component('wuchan', Vue.extend({
+            template: '<h1> 这是用vue.extend创建的组件</h1>'
+        }))
+    //第二种方法
+        var com1 = Vue.extend({
+            template: '<h2> 这是用vue.extend创建的组件</h2>'
+        })
+        Vue.component('chenkang', com1)
+
+    //第三种方法
+        Vue.component('liudong',{
+            template:'#com2'
+        })  
+
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {},
+            filters:{},
+            directives:{},
+            components: {
+                wanghcao: { //自定义内部私有组件
+                    template: '#com2'
+                }
+            },
+
+            //生命周期函数
+            beforeCreate() { },
+            created() { },
+            beforeMount() { },
+            mounted() { },
+            beforeUpdate() { },
+            updated() { },
+            beforeDestroy() { },
+            destroyed() { }
+
+        })
+    </script>
+</body>
+
+</html>
