@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<script src="lib/vue-2.4.0.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<script>
+var vm = new Vue({
+    el: '#app',
+    data: {},
+    methods: {}
+})
+</script>
+</body>
+</html>
+
+<script>
+
+        操作DOM
+            在vue中不提倡操作DOM,但是有些特殊情况使用vue无法完成的功能,必须操作DOM
+            ,也可以采用ref属性将元素添加到vm实例的$resf中
+
+            <h3 ref="myh3">这是h3</h3>
+
+            在vm实例中   
+            vm.$refs.myh3  即可访问
+
+            如果在vm实例中的methods中,可直接使用vm.this访问
+
+            this.$refs.myh3
+
+
+            ref可以引用普通的dom元素, 同时也可以引用vue的组件
+
+            引入组加后可以在父组件中直接获取子组件的引用,从而可以直接访问子组件
+            的data和methods以及其他所有的成员
+
+            <login ref="login> </login>"
+
+            如果login中you数据msg
+
+            在vm实例中可以直接访问 
+
+            vm.$refs.login.msg (不推荐使用)
+
+
+
+        路由
+
+            后端路由:客户端向发送url请求,服务器响应对应的数据
+
+
+            前端路由:不存在与后端的交互,不会发送请求,针对单页面程序通过 #锚点
+            来实现组件切换
+
+
+
+
+
+
+
+
+
+
+
+
+
+            使用步骤:
+                1.在vue.js之后导入vue.router.js文件
+
+                2.创建VueRouter对象,配置路由的匹配规则
+
+                    let router=new VueRouter({
+                        //routes表示路由的匹配规则,可以有很多条,每条
+                        //需要有两个属性   path  和  component
+                        routes:[
+                            {path:'/login',component:注册过的组件对象}
+                        ]
+                    })
+
+                    let vm=new Vue({
+                        el:'app',
+                        data:{},
+                        methods:{},
+                        components:{
+                            login
+                        },
+                        //关联路由
+                        router:routerObj
+                    })
+
+                3.在页面配置好<router-view></router-view>组件占位置
+
+                    <div id="app">
+                            <router-view></router-view>
+                    </div>
+                4.切换组件 可以配置好a标签 跳转
+
+                    <div id="app">
+                            <a fref="#/login">登录</a>
+                            <router-view></router-view>
+                    </div>
+
+ 
+
+            使用 router-link 来渲染a标签
+
+                为了避免每次写a标签都要在前面加# ,
+                可用
+                    tag 定义生成什么标签
+
+
+                <div id="app">
+                    <router-link to="/login" tag='a'>登录</router-link to="/login">
+                </div>
+
+
+
+            使用 redirect 重定向路由
+                在routes路由匹配规则中定义
+
+                {path:'/',redirect:'/login'}
+                {path:'/login',component:login}
+
+
+            设置当前选中路由链接高亮
+                
+                当前router-link 被点击的时候会有一个默认的类样式
+                router-link-active,可以通过css给这个类名添加样式
+
+                也可以通过
+                linkActiveClass属性自定义类名 
+                linkActiveClass:'myactive'
+
+
+            给路由切换加动画
+                和单元素加动画一样  用transtion标签包裹起来
+                <transition mode='out-in'>
+                    <router-view></router-view>
+                </transition>
+
+
+            路由传参
+                这里的路由与http中get  post传参意义不同,这里不会
+                发送http请求,仅仅是为了组件之间切换携带参数过去
+
+
+                1.通过query 传参   不需要修改路由匹配规则,在跳转时候
+
+                拼接上参数即可
+
+                    /login?id=2&name=zs
+
+                    当跳转到对应组件后
+                        用  $route.query.id   获取
+
+
+                    通过params 获取参数
+
+                        路由中
+                        '/login/:id/:name'
+
+                        获取时
+                        /login/2/zs
+                        用  $route.params.id   获取
+
+
+
+            watch属性
+                watch可以用于监视vue中data数据的变化,同时也可以监视路由的改变
+
+                监视data:
+                    data:{
+                        msg:'呵呵哒'
+                    },
+                    watch:{
+                        msg(newVal,oldVal){
+                            当msg参数改变时候会调用这个函数
+                            参数1为改变后的值,
+                            参数2为改变前的值
+                        }
+                    }
+
+                监视路由(重点):
+                    watch:{
+                        //'$route.path':function(newVal,oldVal){
+
+                        }
+                        $route.path(newVal,oldVal){
+
+                        }
+                    }
+</script>     
